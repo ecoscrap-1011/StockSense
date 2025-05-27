@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prediction Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <h1>StockSense</h1>
+            </div>
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="stock-search" placeholder="Search for a stock...">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <span id="current-time"></span>
+                <button id="refresh-btn" class="refresh-button">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <section class="stock-overview">
+                <div class="stock-header">
+                    <div class="stock-title">
+                        <h2 id="stock-symbol">{{ symbol }}</h2>
+                        <span id="stock-name">Loading...</span>
+                    </div>
+                    <div class="stock-price">
+                        <span id="current-price">--</span>
+                        <span id="price-change" class="neutral">--</span>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <h4>Price History</h4>
+                        <canvas id="price-chart"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <h4>Volume</h4>
+                        <canvas id="volume-chart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="side-panel">
+                <!-- Market Data Card with Exchange Rate -->
+                <div class="data-card">
+                    <h3>Market Data</h3>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <span class="data-label">Open</span>
+                            <span id="open-price" class="data-value">--</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">High</span>
+                            <span id="high-price" class="data-value">--</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Low</span>
+                            <span id="low-price" class="data-value">--</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Volume</span>
+                            <span id="volume" class="data-value">--</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">USD to INR</span>
+                            <span id="exchange-rate" class="data-value">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prediction Card -->
+                <div class="data-card prediction-card">
+                    <h3>Price Prediction</h3>
+                    <p class="prediction-intro">Use our ML model to predict the next closing price based on today's data:</p>
+                    <form id="prediction-form">
+                        <div class="form-group">
+                            <label for="open">Open Price</label>
+                            <input type="number" id="open" name="open" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="high">High Price</label>
+                            <input type="number" id="high" name="high" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="low">Low Price</label>
+                            <input type="number" id="low" name="low" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="volume">Volume</label>
+                            <input type="number" id="volume" name="volume" required>
+                        </div>
+                        <button type="submit" class="predict-btn">Generate Prediction</button>
+                    </form>
+
+                    <div id="prediction-result" class="prediction-result">
+                        <div class="result-value">
+                            <span class="result-label">Predicted Price:</span>
+                            <span id="predicted-price">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Last Updated -->
+                <div class="data-card">
+                    <h3>Last Updated</h3>
+                    <p id="last-updated" class="last-updated">--</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
