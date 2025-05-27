@@ -2,5 +2,6 @@ gunicorn
 Flask
 numpy
 pandas
+sklearn
 yfinance
 joblib
